@@ -17,7 +17,11 @@ import os
 import signal
 import time
 from subprocess import Popen, STDOUT
-
+import platform
+if platform.python_version().startswith('2'):
+    from os import tmpfile
+else:
+    from tempfile import TemporaryFile as tmpfile
 
 
 def get_yolk_dir():
@@ -34,7 +38,7 @@ def run_command(cmd, env=None, max_timeout=None):
     """
     arglist = cmd.split()
 
-    output = os.tmpfile()
+    output = tmpfile()
     try:
         pipe = Popen(arglist, stdout=output, stderr=STDOUT, env=env)
     except Exception as errmsg:

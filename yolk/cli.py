@@ -62,7 +62,7 @@ class StdOut:
         self.modulenames = modulenames
 
     def __getattr__(self, attribute):
-        if not self.__dict__.has_key(attribute) or attribute == '__doc__':
+        if attribute not in self.__dict__ or attribute == '__doc__':
             return getattr(self.stdout, attribute)
         return self.__dict__[attribute]
 
@@ -612,8 +612,12 @@ class Yolk(object):
                     % (filename, uri))
             self.logger.error(str(err_msg))
             return 1
+        try:
+            content_type = headers.gettype()
+        except AttributeError:
+            content_type = headers.get_content_type()
 
-        if headers.gettype() in ["text/html"]:
+        if content_type == "text/html":
             dfile = open(downloaded_filename)
             if re.search("404 Not Found", "".join(dfile.readlines())):
                 dfile.close()
@@ -672,14 +676,14 @@ class Yolk(object):
             metadata = self.pypi.release_data(self.project_name, \
                     self.all_versions[0])
             self.logger.debug("DEBUG: browser: %s" % browser)
-            if metadata.has_key("home_page"):
+            if "home_page" in metadata:
                 self.logger.info("Launching browser: %s" \
                         % metadata["home_page"])
                 if browser == 'konqueror':
                     browser = webbrowser.Konqueror()
                 else:
                     browser = webbrowser.get()
-                    browser.open(metadata["home_page"], 2)
+                browser.open(metadata["home_page"], 2)
                 return 0
 
         self.logger.error("No homepage URL found.")
@@ -870,7 +874,7 @@ class Yolk(object):
                 print("   %s" % entry_point)
                 if plugin.__doc__:
                     print(plugin.__doc__)
-                print
+                print()
             except ImportError:
                 pass
         if not found:

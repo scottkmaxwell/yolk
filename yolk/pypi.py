@@ -20,16 +20,17 @@ import re
 import platform
 if platform.python_version().startswith('2'):
     import xmlrpclib
-    import cPickle
+    import cPickle as pickle
     import urllib2
+    import httplib
 else:
     import xmlrpc.client as xmlrpclib
     import pickle
     import urllib.request as urllib2
+    import http.client as httplib
 import os
 import time
 import logging
-import urllib
 
 from yolk.utils import get_yolk_dir
 
@@ -164,7 +165,7 @@ class CheeseShop(object):
         Returns PyPI's XML-RPC server instance
         """
         check_proxy_setting()
-        if os.environ.has_key('XMLRPC_DEBUG'):
+        if 'XMLRPC_DEBUG' in os.environ:
             debug = 1
         else:
             debug = 0
@@ -203,13 +204,13 @@ class CheeseShop(object):
         """Return list of pickled package names from PYPI"""
         if self.debug:
             self.logger.debug("DEBUG: reading pickled cache file")
-        return cPickle.load(open(self.pkg_cache_file, "r"))
+        return pickle.load(open(self.pkg_cache_file, "rb"))
 
     def fetch_pkg_list(self):
         """Fetch and cache master list of package names from PYPI"""
         self.logger.debug("DEBUG: Fetching package name list from PyPI")
         package_list = self.list_packages()
-        cPickle.dump(package_list, open(self.pkg_cache_file, "w"))
+        pickle.dump(package_list, open(self.pkg_cache_file, "wb"))
         self.pkg_list = package_list
 
     def search(self, spec, operator):
@@ -275,9 +276,9 @@ class CheeseShop(object):
 
             #Try the package's metadata directly in case there's nothing
             #returned by XML-RPC's release_urls()
-            if metadata and metadata.has_key('download_url') and \
-                        metadata['download_url'] != "UNKNOWN" and \
-                        metadata['download_url'] != None:
+            if metadata and 'download_url' in metadata and\
+                        metadata['download_url'] != "UNKNOWN" and\
+                        metadata['download_url'] is not None:
                 if metadata['download_url'] not in all_urls:
                     if pkg_type != "all":
                         url = filter_url(pkg_type, metadata['download_url'])
