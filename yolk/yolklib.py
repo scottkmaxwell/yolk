@@ -1,5 +1,4 @@
-
-'''
+"""
 
 yolklib.py
 ==========
@@ -13,7 +12,7 @@ Author: Rob Cakebread <cakebread @ gmail>
 
 License  : BSD (See COPYING)
 
-'''
+"""
 
 __docformat__ = 'restructuredtext'
 
@@ -34,7 +33,7 @@ class Distributions(object):
     def query_activated(self, dist):
         """
         Return True if distribution is active
-        Return Falsee if distribution is non-active
+        Return False if distribution is non-active
 
         @param dist: pkg_resources Distribution object
 
@@ -131,8 +130,8 @@ class Distributions(object):
         """
         Return case-sensitive package name given any-case package name
 
-        @param project_name: PyPI project name
-        @type project_name: string
+        @param package_name: PyPI project name
+        @type package_name: string
 
         """
         if len(self.environment[package_name]):

@@ -23,7 +23,7 @@ else:
         #Python <2.5 has elementtree as 3rd party module
         from cElementTree import iterparse
     except ImportError:
-        print "You need to install cElementTree"
+        print("You need to install cElementTree")
         sys.exit(2)
 
 
@@ -52,7 +52,7 @@ def get_pkg_ver(pv, add_quotes=True):
 
 def test_api(pypi_xml):
     """Basic API tests"""
-    print "Testing API"""
+    print("Testing API""")
     skipped = 0
     skipped_msgs = []
     failed = 0
@@ -68,29 +68,30 @@ def test_api(pypi_xml):
                             % (pkg_name, "- space in project name"))
                 try:
                     assert versions[0] == ver
-                    print "Testing %s... passed" % elem.text
+                    print("Testing %s... passed" % elem.text)
                 except:
                     failed += 1
                     failed_msgs.append("%s %s" % (pkg_name, versions))
-                    print "Testing %s... failed" % elem.text
+                    print("Testing %s... failed" % elem.text)
 
-    print "%s tests failed." % failed
+    print("%s tests failed." % failed)
     for msg in failed_msgs:
-        print "\t%s" % msg
-    print "%s tests skipped." % skipped
+        print("\t%s" % msg)
+    print("%s tests skipped." % skipped)
     for msg in skipped_msgs:
-        print "\t%s" % msg
+        print("\t%s" % msg)
+
 
 def test_cli(pypi_xml):
     """Test the command-line tool"""
-    print "Testing CLI"
+    print("Testing CLI")
     for event, elem in iterparse(pypi_xml):
         if elem.tag == "title":
             if not elem.text.startswith('Cheese Shop recent updates'):
-                print "Testing %s..." % elem.text
+                print("Testing %s..." % elem.text)
                 pkg_name, ver = get_pkg_ver(elem.text)
                 if " " in pkg_name:
-                    print "Space in package name, skipping: %s" % pkg_name
+                    print("Space in package name, skipping: %s" % pkg_name)
                 else:
                     os.system("yolk -V '%s'" % pkg_name)
                     os.system("yolk -D %s==%s" % (pkg_name, ver))

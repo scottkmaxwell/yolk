@@ -14,7 +14,7 @@ As of 0.0.7 yolk is in Gentoo's Portage tree as dev-python/yolk and a plugin for
 Summary
 -------
 
-Yolk is a Python tool for obtaining information about installed Python packages and querying packages avilable on PyPI (Python Package Index). 
+Yolk is a Python tool for obtaining information about installed Python packages and querying packages available on PyPI (Python Package Index).
 
 You can see which packages are active, non-active or in development mode and show you which have newer versions available by querying PyPI. 
 
@@ -28,7 +28,7 @@ Usage Examples::
 
     $ yolk -n 
          List only the non-activated (--multi-version) packages installed 
-         
+
     $ yolk -l -f License,Author nose==1.0
          Show the license and author for version 1.0 of the package `nose`
 
@@ -94,21 +94,21 @@ Changes
 **0.4.3**: Added missing documentation and license files
 
 
-           
+
 **0.4.2**: Fix for -C when an integer isn't supplied
-           
+
            Fix for --entry-map from Jesus Rivero (Neurogeek) neurogeek@gentoo.org. Thanks, Jesus!
-		
-		   Switch to BSD license from GPL-2
+
+           Switch to BSD license from GPL-2
 
 
 **0.4.1**: Fix for -f fields
-           
+
            Add check for integer with -L
 
 
 **0.4.0**: Added http proxy support for XML-RPC
-            
+
            Added case-insensitive search for -f
 
            Non-existent packages with -S no longer show entire index (bug was with PyPI)
@@ -130,7 +130,7 @@ Changes
 
            Removed dependency on elementtree 
 
-           
+
 **0.2.0**: Added 'svn' type for -T
 
            A kablillion bug fixes
@@ -148,7 +148,7 @@ Changes
 
 
 **0.0.7**: New options: --entry-map and -entry-points
-           
+
            Improved results with --download-links
 
            New plugin system. First plugin available: yolk-portage

@@ -65,7 +65,7 @@ class ProxyTransport(xmlrpclib.Transport):
     Provides an XMl-RPC transport routing via a http proxy.
 
     This is done by using urllib2, which in turn uses the environment
-    varable http_proxy and whatever else it is built to use (e.g. the
+    variable http_proxy and whatever else it is built to use (e.g. the
     windows    registry).
 
     NOTE: the environment variable http_proxy should be set correctly.
@@ -83,7 +83,10 @@ class ProxyTransport(xmlrpclib.Transport):
         self.verbose = verbose
         url = 'http://' + host + handler
         request = urllib2.Request(url)
-        request.add_data(request_body)
+        try:
+            request.add_data(request_body)
+        except AttributeError:
+            request.data = request_body
         # Note: 'Host' and 'Content-Length' are added automatically
         request.add_header('User-Agent', self.user_agent)
         request.add_header('Content-Type', 'text/xml')
@@ -239,7 +242,7 @@ class CheeseShop(object):
         try:
             return self.xmlrpc.release_data(package_name, version)
         except xmlrpclib.Fault:
-            #XXX Raises xmlrpclib.Fault if you give non-existant version
+            #XXX Raises xmlrpclib.Fault if you give non-existent version
             #Could this be server bug?
             return
 
@@ -251,7 +254,7 @@ class CheeseShop(object):
         return self.xmlrpc.package_releases(package_name)
 
     def get_download_urls(self, package_name, version="", pkg_type="all"):
-        """Query PyPI for pkg download URI for a packge"""
+        """Query PyPI for pkg download URI for a package"""
 
         if version:
             versions = [version]

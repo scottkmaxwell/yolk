@@ -237,9 +237,9 @@ class Yolk(object):
         """
         Check installed packages for available updates on PyPI
 
-        @param project_name: optional package name to check; checks every
-                             installed pacakge if none specified
-        @type project_name: string
+        self.project_name: optional package name to check; checks every
+                             installed package if none specified
+        self.project_name: string
 
         @returns: None
         """
@@ -310,7 +310,7 @@ class Yolk(object):
             for prefix in ignores:
                 if dist.location.startswith(prefix):
                     dist.location = dist.location.replace(prefix, "")
-            #Case-insensitve search because of Windows
+            #Case-insensitive search because of Windows
             if dist.location.lower().startswith(get_python_lib().lower()):
                 develop = ""
             else:
@@ -414,7 +414,7 @@ class Yolk(object):
         """
         Show dependencies for package(s)
 
-        @returns: 0 - sucess  1 - No dependency info supplied
+        @returns: 0 - success  1 - No dependency info supplied
         """
 
         pkgs = pkg_resources.Environment()
@@ -442,7 +442,7 @@ class Yolk(object):
         """
         Show detailed PyPI ChangeLog for the last `hours`
 
-        @returns: 0 = sucess or 1 if failed to retrieve from XML-RPC server
+        @returns: 0 = success or 1 if failed to retrieve from XML-RPC server
 
         """
         hours = self.options.show_pypi_changelog
@@ -493,7 +493,7 @@ class Yolk(object):
 
     def show_download_links(self):
         """
-        Query PyPI for pkg download URI for a packge
+        Query PyPI for pkg download URI for a package
 
         @returns: 0
 
@@ -565,7 +565,7 @@ class Yolk(object):
         if self.options.file_type == "svn":
             version = "dev"
             svn_uri = get_download_uri(self.project_name, \
-                    "dev", True)
+                                       "dev", True)
             if svn_uri:
                 directory = self.project_name + "_svn"
                 return self.fetch_svn(svn_uri, directory)
@@ -584,7 +584,7 @@ class Yolk(object):
             return self.fetch_uri(directory, uri)
         else:
             self.logger.error("No %s URI found for package: %s " % \
-                    (self.options.file_type, self.project_name))
+                              (self.options.file_type, self.project_name))
             return 1
 
     def fetch_uri(self, directory, uri):
@@ -729,10 +729,10 @@ class Yolk(object):
             print_pkg_versions(self.project_name, self.all_versions)
         else:
             if self.version:
-                self.logger.error("No pacakge found for version %s" \
+                self.logger.error("No package found for version %s" \
                         % self.version)
             else:
-                self.logger.error("No pacakge found for %s" % self.project_name)
+                self.logger.error("No package found for %s" % self.project_name)
             return 1
         return 0
 
@@ -788,13 +788,11 @@ class Yolk(object):
                 first = spec
             (key1, term1) = first.split('=')
             key1 = key1.strip()
+            spec = {key1: term1}
+
             if second:
                 (key2, term2) = second.split('=')
                 key2 = key2.strip()
-
-            spec = {}
-            spec[key1] = term1
-            if second:
                 spec[key2] = term2
         except:
             self.logger.error(usage)
@@ -807,8 +805,8 @@ class Yolk(object):
         Search PyPI by metadata keyword
         e.g. yolk -S name=yolk AND license=GPL
 
-        @param spec: Cheese Shop search spec
-        @type spec: list of strings
+        self.pkg_spec: Cheese Shop search spec
+        self.pkg_spec: list of strings
 
         spec examples:
           ["name=yolk"]
@@ -819,7 +817,7 @@ class Yolk(object):
 
         """
         spec = self.pkg_spec
-        #Add remainging cli arguments to options.pypi_search
+        #Add remaining cli arguments to options.pypi_search
         search_arg = self.options.pypi_search
         spec.insert(0, search_arg.strip())
 
@@ -840,9 +838,6 @@ class Yolk(object):
     def show_entry_map(self):
         """
         Show entry map for a package
-
-        @param dist: package
-        @param type: srting
 
         @returns: 0 for success or 1 if error
         """

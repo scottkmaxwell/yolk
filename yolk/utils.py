@@ -5,7 +5,7 @@
 utils.py
 ===========
 
-Misc funcitions
+Misc functions
 ---------------
 
 run_command borrowed from Cheesecake - See CREDITS.
