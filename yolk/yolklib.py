@@ -1,4 +1,4 @@
-"""
+'''
 
 yolklib.py
 ==========
@@ -12,7 +12,7 @@ Author: Rob Cakebread <cakebread @ gmail>
 
 License  : BSD (See COPYING)
 
-"""
+'''
 
 __docformat__ = 'restructuredtext'
 
